@@ -1,6 +1,7 @@
 using Serilog;
 using Serilog.AspNetCore;
 using Web_API.Data;
+using Web_API.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = new ConfigurationBuilder()
@@ -14,7 +15,7 @@ Log.Logger = new LoggerConfiguration()
 try
 {
     // Add services to the container.
-    builder.Services.AddSingleton<DatabaseClient>();
+    builder.Services.AddSingleton<DatabaseClient<User>>();
     builder.Services.AddSingleton<WebApiServices>();
     builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
