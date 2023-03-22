@@ -7,6 +7,7 @@
             public const string DatabaseName = "Documents";
             public const string ConnectionString = "Database";
             public const string UserCollection = "User";
+            public const string defaultPassword = "Passw0rd";
         }
     }
 }

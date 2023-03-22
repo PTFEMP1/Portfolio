@@ -15,8 +15,8 @@ Log.Logger = new LoggerConfiguration()
 try
 {
     // Add services to the container.
-    builder.Services.AddSingleton<DatabaseClient<User>>();
-    builder.Services.AddSingleton<WebApiServices>();
+    builder.Services.AddSingleton<IDatabaseClient<User>, DatabaseClient<User>>();
+    builder.Services.AddSingleton<UserServices>();
     builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();

@@ -22,5 +22,17 @@ namespace Web_API.Models
         /// </summary>
         [BsonElement("NPosts")]
         public int nPosts { get; set; }
+
+        public User(string user, string pass)
+        {
+            _id = Guid.NewGuid().ToString();
+            nPosts = 0;
+            username = user;
+            password = pass;
+        }
+        public User()
+        {
+            //
+        }
     }
 }

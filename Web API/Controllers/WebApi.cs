@@ -9,25 +9,39 @@ namespace Web_API.Controllers
     [Route("[controller]")]
     public class WebApi : ControllerBase
     {
-        private readonly DatabaseClient<User> _database;
+        private readonly UserServices _userServices;
         private readonly ILogger<WebApi> _logger;
-        public WebApi(DatabaseClient<User> database,
+        public WebApi(UserServices userServices,
                       ILogger<WebApi> logger)
         {
             _logger = logger;
-            _database = database;
+            _userServices = userServices;
         }
 
         [HttpGet("GetUser")]
         public List<User> Get()
         {
-            FilterDefinition<User> filter = Builders<User>.Filter.Empty;
-            return _database.GetAll(filter);
+            return _userServices.GetAll();
         }
-        [HttpGet("CreateUser")]
-        public string Create(string id)
+        [HttpPut("CreateUser")]
+        public bool Create(User user)
         {
-            return "Não foi possivel criar " + id;
+            _userServices.CreateUser(user);
+            return true;
+        }
+
+        [HttpPut("ChangeUserByName")]
+        public bool UpdateById(User user)
+        {
+            _userServices.UpdateUserName(user._id, user.username);
+            return true;
+        }
+
+        [HttpDelete("DeleteById")]
+        public bool DeleteById(string id)
+        {
+            _userServices.DeleteUserById(id);
+            return true;
         }
     }
 }
