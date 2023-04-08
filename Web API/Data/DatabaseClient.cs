@@ -42,6 +42,7 @@ namespace Web_API.Data
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
+                throw;
             }
             return result;
         }
@@ -62,6 +63,7 @@ namespace Web_API.Data
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
+                throw;
             }
             return result;
         }
@@ -101,6 +103,7 @@ namespace Web_API.Data
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
+                throw;
             }
             return result;
         }

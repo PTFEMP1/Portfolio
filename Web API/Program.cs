@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Diagnostics;
 using Serilog;
 using Serilog.AspNetCore;
+using Web_API;
 using Web_API.Data;
 using Web_API.Models;
-
-var builder = WebApplication.CreateBuilder(args);
+try
+{
+    var builder = WebApplication.CreateBuilder(args);
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
@@ -12,8 +15,7 @@ Log.Logger = new LoggerConfiguration()
     //.Enrich.FromLogContext()
     .CreateLogger();
    Log.Information("Starting Web API");
-try
-{
+
     // Add services to the container.
     builder.Services.AddSingleton<IDatabaseClient<User>, DatabaseClient<User>>();
     builder.Services.AddSingleton<UserServices>();
@@ -29,7 +31,27 @@ try
     {
         app.UseSwagger();
         app.UseSwaggerUI();
+        
     }
+
+    // Global Exception handler
+    app.UseExceptionHandler(error => {
+        error.Run(async context =>
+        {
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            context.Response.ContentType = "application/json";
+            var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+            if (contextFeature != null)
+            {
+                Log.Error($"Something went wrong in the {contextFeature.Error}");
+                await context.Response.WriteAsync(new Error
+                {
+                    StatusCode = context.Response.StatusCode,
+                    Message = contextFeature.Error.Message,
+                }.ToString());
+            }
+        });
+    });
     app.UseSerilogRequestLogging();
     app.UseHttpsRedirection();
 

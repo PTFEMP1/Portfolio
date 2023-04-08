@@ -67,10 +67,10 @@ namespace Web_API.Data
         public bool CreateUser(User user)
         {
             bool result = false;
-            if (GetUserByUserName(user.username) == null)
-            {
-                result = _database.Create(user);
-            }
+            //if (GetUserByUserName(user.username) != null)
+            //{
+            //}
+            result = _database.Create(user);
             return result;
         }
 
