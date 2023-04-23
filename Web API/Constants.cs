@@ -9,5 +9,10 @@
             public const string UserCollection = "User";
             public const string defaultPassword = "Passw0rd";
         }
+        
+        public static class Validations
+        {
+            public static readonly string[] badWords = { "Insult1", "Insult2" };
+        }
     }
 }

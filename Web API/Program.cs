@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Serilog;
 using Serilog.AspNetCore;
 using Web_API;
+using Web_API.Business.Validations;
 using Web_API.Data;
 using Web_API.Models;
 try
@@ -19,6 +20,7 @@ Log.Logger = new LoggerConfiguration()
     // Add services to the container.
     builder.Services.AddSingleton<IDatabaseClient<User>, DatabaseClient<User>>();
     builder.Services.AddSingleton<UserServices>();
+    builder.Services.AddSingleton<ValidateUser>();
     builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();

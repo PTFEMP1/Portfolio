@@ -8,6 +8,7 @@ namespace Web_API.Models
         /// Gets or Sets the Id.
         /// </summary>
         [BsonId]
-        public string _id { get; set; }
+        [BsonRequired]
+        public string _id { get; set; } = Guid.NewGuid().ToString();
     }
 }

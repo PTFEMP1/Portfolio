@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using Web_API.Business.Validations;
 using Web_API.Data;
 using Web_API.Models;
 
@@ -10,11 +11,15 @@ namespace Web_API.Controllers
     public class WebApi : ControllerBase
     {
         private readonly UserServices _userServices;
+        private readonly ValidateUser _userValidation;
         private readonly ILogger<WebApi> _logger;
-        public WebApi(UserServices userServices,
-                      ILogger<WebApi> logger)
+        public WebApi(
+            UserServices userServices,
+            ValidateUser userValidation,
+            ILogger<WebApi> logger)
         {
             _logger = logger;
+            _userValidation = userValidation;
             _userServices = userServices;
         }
 
@@ -26,6 +31,10 @@ namespace Web_API.Controllers
         [HttpPut("CreateUser")]
         public bool Create(User user)
         {
+            if (_userValidation.ValidateUserData(user) == false)
+            {
+                throw new ArgumentException("User ou Password not valid");
+            };
             _userServices.CreateUser(user);
             return true;
         }
